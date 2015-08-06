@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
+from random import randint
 #	FUNCTIONS	#
 
 line = raw_input()
@@ -50,6 +51,39 @@ def vigenere(entrada, saida, chave, modo):
 		i += 1
 	saida.write(push)
 	print "Saída com Vigenere:\n" + '-'*10 + '\n'+ push
+
+def doHash():
+	push = ''
+	try:
+		hash = open(chave, "wb");
+	except IOError:
+		print "Erro na abertura do arquivo: Chave!"
+
+	vector = []
+
+	for x in xrange(0, 256):	#Preenche com valores de 0 a 255
+		vector.append(x)
+
+	for x in xrange(0, 256):
+		j = randint(0, len(vector))
+		push = push + vector[j] + '\n'
+		vector.pop(j)
+
+	hash.write(push)
+
+
+	return hash
+
+def sobreposicao(entrada, saida, chave, modo):
+	push = ''
+	if modo == -1:
+		hash = doHash(chave)
+
+	for x in entrada:
+		valor = hash[ord(x)]
+
+		push = push + ord(valor)
+		
 			
 		
 #	MAIN	#
