@@ -25,7 +25,7 @@ def transposicao(entrada, saida, chave, modo):
 		ji = 1			#Chave maior => entrada cabe em uma linha
 		chave = len(entrada)	#Correção para o indice dentro da linha
 	else:
-		ji = math.ceil(len(entrada)/float(chave))
+		ji = math.ceil(len(entrada)/chave)
 
 	for j in range(0, int(ji)):		#Linha x Coluna
 		m.append([])
