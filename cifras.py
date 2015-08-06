@@ -19,7 +19,7 @@ def transposicao(entrada, saida, chave, modo):
 	m = []
 	x = 0
 	if modo == (-1):			#modo = -1 => Criptografar => Chave = inverso
-		chave = int(len(entrada)/chave)
+		chave = len(entrada)/chave
 	
 	if len(entrada) <= chave:
 		ji = 1			#Chave maior => entrada cabe em uma linha
@@ -31,14 +31,18 @@ def transposicao(entrada, saida, chave, modo):
 		m.append([])
 		for i in xrange(0, chave):
 			m[j].append([])
-			m[j][i] = entrada[x]
-			x += 1			# x = índice do caractere do vetor de entrada
+			m[j][i] = '\r'
+			if x < len(entrada):
+				m[j][i] = entrada[x]
+			x += 1		# x = índice do caractere do vetor de entrada
 
 	m = zip(*m)				#Transposta da matriz
-
+	x = 0
 	for j in xrange(0, chave):		#Leitura da transposta para obtenção do texto final
 		for i in xrange(0, int(ji)):
+			#print push
 			push = push + m[j][i]
+
 	saida.write(push)
 	print "Saída com Transposição:\n" + '-'*10 + '\n'+ push
 
