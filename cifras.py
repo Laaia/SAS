@@ -50,7 +50,7 @@ def vigenere(entrada, saida, chave, modo):
 	i = 0	#Indice de controle para posição da chave => i-Modular
 	push = ''
 	for x in entrada:	#Soma ou diminui a chave do texto entrado
-		valor = ord(x) + ord(chave[(i % len(chave))])*modo
+		valor = (ord(x) + ord(chave[(i % len(chave))])*modo) % 255
 		push = push + chr(valor)
 		i += 1
 	saida.write(push)
@@ -70,8 +70,6 @@ def doHash(chave):
 
 	for x in xrange(0, 256):
 		j = randint(0, len(vector)-1)
-		#print "len = ", len(vector)
-		#print "j = ", j
 		push = push + chr(vector[j]) + '\r\n'
 		vector.pop(j)
 
