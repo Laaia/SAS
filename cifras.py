@@ -59,16 +59,16 @@ def vigenere(entrada, saida, chave, modo):
 def doHash(chave):
 	push = ''
 	try:
-		hash = open(chave, "wrb");	
+		hash = open(chave, "wr");	
 	except IOError:
 		print "Erro na abertura do arquivo: Chave!"
 
 	vector = []
 
-	for x in xrange(0, 256):	#Preenche com valores de 0 a 255
+	for x in xrange(0, 255):	#Preenche com valores de 0 a 255
 		vector.append(x)
 
-	for x in xrange(0, 256):
+	for x in xrange(0, 255):
 		j = randint(0, len(vector)-1)
 		push = push + chr(vector[j]) + '\r\n'
 		vector.pop(j)
@@ -123,6 +123,8 @@ elif metodo == 'vigenere':
 	vigenere(a, saida, chave, int(modo))
 elif metodo == 'substituicao':
 	substituicao(a, saida, chave, int(modo))
+else:
+	print "Entrada inválida!"
 
 saida.close()
 entrada.close()

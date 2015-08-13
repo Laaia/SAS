@@ -19,26 +19,30 @@ def transposicao(entrada, saida, chave, modo):
 	m = []
 	x = 0
 	if modo == (-1):			#modo = -1 => Criptografar => Chave = inverso
-		chave = int(len(entrada)/chave)
+		chave = len(entrada)/chave
 	
 	if len(entrada) <= chave:
 		ji = 1			#Chave maior => entrada cabe em uma linha
 		chave = len(entrada)	#Correção para o indice dentro da linha
 	else:
-		ji = math.ceil(len(entrada)/chave)
+		ji = math.ceil(len(entrada)/float(chave))
 
 	for j in range(0, int(ji)):		#Linha x Coluna
 		m.append([])
 		for i in xrange(0, chave):
 			m[j].append([])
-			m[j][i] = entrada[x]
-			x += 1			# x = índice do caractere do vetor de entrada
+			m[j][i] = '\r'
+			if x < len(entrada):
+				m[j][i] = entrada[x]
+			x += 1		# x = índice do caractere do vetor de entrada
 
 	m = zip(*m)				#Transposta da matriz
-
+	x = 0
 	for j in xrange(0, chave):		#Leitura da transposta para obtenção do texto final
 		for i in xrange(0, int(ji)):
+			#print push
 			push = push + m[j][i]
+
 	saida.write(push)
 	print "Saída com Transposição:\n" + '-'*10 + '\n'+ push
 
@@ -46,7 +50,7 @@ def vigenere(entrada, saida, chave, modo):
 	i = 0	#Indice de controle para posição da chave => i-Modular
 	push = ''
 	for x in entrada:	#Soma ou diminui a chave do texto entrado
-		valor = ord(x) + ord(chave[(i % len(chave))])*modo
+		valor = (ord(x) + ord(chave[(i % len(chave))])*modo) % 255
 		push = push + chr(valor)
 		i += 1
 	saida.write(push)
@@ -55,19 +59,17 @@ def vigenere(entrada, saida, chave, modo):
 def doHash(chave):
 	push = ''
 	try:
-		hash = open(chave, "wrb");	
+		hash = open(chave, "wr");	
 	except IOError:
 		print "Erro na abertura do arquivo: Chave!"
 
 	vector = []
 
-	for x in xrange(0, 256):	#Preenche com valores de 0 a 255
+	for x in xrange(0, 255):	#Preenche com valores de 0 a 255
 		vector.append(x)
 
-	for x in xrange(0, 256):
+	for x in xrange(0, 255):
 		j = randint(0, len(vector)-1)
-		#print "len = ", len(vector)
-		#print "j = ", j
 		push = push + chr(vector[j]) + '\r\n'
 		vector.pop(j)
 
@@ -121,6 +123,7 @@ elif metodo == 'vigenere':
 	vigenere(a, saida, chave, int(modo))
 elif metodo == 'substituicao':
 	substituicao(a, saida, chave, int(modo))
+else:
 
 saida.close()
 entrada.close()
