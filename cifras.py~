@@ -124,6 +124,7 @@ elif metodo == 'vigenere':
 elif metodo == 'substituicao':
 	substituicao(a, saida, chave, int(modo))
 else:
+	print "Entrada inválida!"
 
 saida.close()
 entrada.close()
