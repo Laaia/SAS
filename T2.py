@@ -20,7 +20,7 @@ def transposicao(entrada, saida, chave, modo):
 	x = 0
 	if modo == (-1):			#modo = -1 => Criptografar => Chave = inverso
 		chave = len(entrada)/chave
-	
+
 	if len(entrada) <= chave:
 		ji = 1			#Chave maior => entrada cabe em uma linha
 		chave = len(entrada)	#Correção para o indice dentro da linha
@@ -31,7 +31,7 @@ def transposicao(entrada, saida, chave, modo):
 		m.append([])
 		for i in xrange(0, chave):
 			m[j].append([])
-			m[j][i] = '\r'
+			m[j][i] = '*'
 			if x < len(entrada):
 				m[j][i] = entrada[x]
 			x += 1		# x = índice do caractere do vetor de entrada
@@ -59,7 +59,7 @@ def vigenere(entrada, saida, chave, modo):
 def doHash(chave):
 	push = ''
 	try:
-		hash = open(chave, "wr");	
+		hash = open(chave, "wr");
 	except IOError:
 		print "Erro na abertura do arquivo: Chave!"
 
@@ -82,13 +82,13 @@ def substituicao(entrada, saida, chave, modo):
 	if modo == 1:
 		doHash(chave)
 	try:
-		h = open(chave, "rb+");	
+		h = open(chave, "rb+");
 	except IOError:
 		print "Erro na abertura do arquivo: Chave!"
 	hash = h.read()
 	hash = hash.split("\r\n")
 	hash.pop(len(hash)-1)
-	
+
 	if modo == 1:
 		for x in entrada:
 			push += hash[ord(x)]
@@ -98,10 +98,10 @@ def substituicao(entrada, saida, chave, modo):
 
 	saida.write(push)
 	print "Saída com Substituição:\n" + '-'*10 + '\n'+ push
-			
-		
+
+
 #	MAIN	#
-metodo, e, s, chave, modo = line.split() #Padrão de entrada 
+metodo, e, s, chave, modo = line.split() #Padrão de entrada
 #Nome da cifra, arquivo de entrada, arquivo de saida, chave e modo(Criptografar(1), Descriptografar(-1))
 
 
