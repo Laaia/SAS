@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
-
+import itertools
 from random import randint
 from sets import Set
 import StringIO
@@ -10,25 +10,23 @@ import StringIO
 line = raw_input()
 metodo, e = line.split() #Padrão de entrada
 
-#Força bruta em chave - A cada chave testada verificar no dicionário
-#Se é um texto claro
-
 try:
     en = open(e, "rb");
-    dicionario = open("dic", "rb");
+    dicionario = open("dic", "rb"); # Dicionário de palavras para busca
     saida = open("saida", "wb")
 except IOError:
 	print "Erro na abertura dos arquivos"
 
 entrada = en.read()
 d = dicionario.readlines()
-dic = Set([])
+
+dic = Set([]) # Inicializa variável para uso de 'hashes'
 
 # Tratamento de dado - Remoção do \n
 for i in d:
     dic.add(i.replace("\n", ""))
-dic = Set(dic)
 
+limit = ['a', 'b', 'c', 'd', '1', '2', '3', '4', '5', '6']
 
 #Função que verifica a pertinência do arquivo descriptografado
 def searchWords(text):
@@ -46,7 +44,7 @@ def searchWords(text):
     return (hit/lines)*100
 
 # descriptografa utilizando César
-def tryCesar(palavra, chave):
+def cesar(palavra, chave):
     push = ''
     for x in palavra:
         valor = (ord(x) + chave*(-1)) % 255
@@ -54,17 +52,17 @@ def tryCesar(palavra, chave):
     return push
 
 # descriptografa utilizando Vigenere
-def tryVigenere(entrada, chave):
+def vigenere(entrada, chave):
     i = 0	#Indice de controle para posição da chave => i-Modular
     push = ''
     for x in entrada:	#Soma ou diminui a chave do texto entrado
-        valor = (ord(x) + chave*(-1)) % 255
+        valor = (ord(x) + ord(chave[(i % len(chave))])*(-1)) % 255
         push = push + chr(valor)
         i += 1
     return push
 
 # descriptografa utilizando Transposição
-def tryTransposicao(entrada, chave):
+def transposicao(entrada, chave):
     push = ''
     m = []
     x = 0
@@ -95,42 +93,42 @@ def tryTransposicao(entrada, chave):
             push = push + m[j][i]
     return push
 
-def transposicao(entrada):
+def tryTransposicao(entrada):
     for key in range(1, 256):
-        texto = tryTransposicao(entrada, key)
-        #   print texto
-        texto = texto.replace("*", "")
+        texto = transposicao(entrada, key).replace("*", "")  # * => caractere 'null' inserido na criptografia
         if searchWords(texto) >= 90:
             print "Chave = ", key
             saida.write(texto)
             break
 
-def cesar(entrada):
+def tryCesar(entrada):
     for key in range(1, 256):
-        texto = tryCesar(entrada, key)
+        texto = cesar(entrada, key)
         if searchWords(texto) >= 90:
             print "Chave = ", key
             saida.write(texto)
             break
 
-def vigenere(entrada):
-    for key in range(0, 256):
-        texto = tryVigenere(entrada, key)
-        if searchWords(texto) >= 90:
-            print "Chave = " + chr(key)
-            saida.write(texto)
-            break
-
+def tryVigenere(entrada):
+    key = []
+    for i in range(1, len(limit)):
+        for a in itertools.permutations(limit, i):
+            key = ','.join(a).split(',')
+            texto = vigenere(entrada, key)
+            if searchWords(texto) >= 90:
+                print "Chave = " + ''.join(key)
+                saida.write(texto)
+                return
 
 
 #	MAIN	#
 
 if metodo == 'cesar':
-	cesar(entrada)
+	tryCesar(entrada)
 elif metodo == 'vigenere':
-	vigenere(entrada)
+	tryVigenere(entrada)
 elif metodo == 'transposicao':
-	transposicao(entrada)
+	tryTransposicao(entrada)
 else:
 	print "Entrada inválida!"
 
