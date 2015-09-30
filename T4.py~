@@ -118,8 +118,8 @@ def searchWords(text):
 
 # Geração de padrões, triplas, duplas e letras com base num dicionario
 """frequencia("1", "dic")
-frequencia("2", "dic")"""
-frequencia("3", "dic")
+frequencia("2", "dic")
+frequencia("3", "dic")"""
 #padroes("dic.txt","dic")
 
 # Geração de padrões, triplas, duplas e letras com base no texto cifrado
