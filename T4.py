@@ -103,18 +103,17 @@ def padroes(line, modo):
     s.close()
 
 def searchWords(text):
-    hit = 0.0
-    lines = 0.0
-    text = text.split()
-    text = Set(text)
-    for word in text:
-        if (word in dic) or (word.lower() in dic):
-            hit += 1.0
-    #print "achei word = " + word
-
-    lines += 1.0
-    #print (hit/lines)*100
-    return (hit/lines)*100
+	hit = 0.0
+	lines = 0.0
+	text = text.split()
+	text = Set(text)
+	for word in text:
+		if word in dic:
+			hit += 1.0
+		#print "achei word = " + word
+		lines += 1.0
+	print (hit/lines)*100
+	return (hit/lines)*100
 # - - - M A I N - - - #
 
 # Geração de padrões, triplas, duplas e letras com base num dicionario
@@ -140,7 +139,7 @@ try:
     tCif = open("3_cif.txt", "r+")
 
     cif = open("cif.txt", "r+")
-
+    s = open("saida.txt", "wb")
 except IOError:
     print "Erro na abertura dos arquivos"
 
@@ -163,37 +162,45 @@ hash = {}
 # Construção da chave
 
 #hash[' '] = letrasCif[len(letrasCif) - 1]
-
+hash[letrasCif[len(letrasCif)-1]] = []
+hash[letrasCif[len(letrasCif)-1]].append(" ")
 add = ''
-for i in xrange(1, 10, 2):
+for i in xrange(1, 20, 2):
     #print triplasDic[i]+" "+ triplasCif[i]
     for (x, y) in zip(triplasCif[len(triplasCif)-i], triplasDic[len(triplasDic)-i]):
-        #print "x = "+x+" y = "+y
-        if y not in add:
-            hash[x] =[]
-            hash[x].append(y)
-            add += y
+        try:
+        	hash[x].append(y)
+        except Exception, e:
+			hash[x] =[]
+			hash[x].append(y)
+        add += y
 
-for i in xrange(1, 10, 2):
+for i in xrange(1, 20, 2):
     #print duplasDic[i]+" "+ duplasCif[i]
     for (x, y) in zip(triplasCif[len(triplasCif)-i], triplasDic[len(triplasDic)-i]):
-        if y not in add:
-            hash[x] = []
-            hash[x].append(y)
+        #if y not in add:
+		try:
+			hash[x].append(y)
+		except Exception, e:
+			hash[x] =[]
+			hash[x].append(y)
 
-for i in xrange(1, 10, 2):
-    x, y = letrasCif[len(letrasCif) - i], letrasDic[len(letrasDic) - (i+1)]
-    #print x+" "+y
-    if y not in add:
-        hash[x] = []
-        hash[x].append(y)
+for i in xrange(1, 20, 2):
+	x, y = letrasCif[len(letrasCif) - i], letrasDic[len(letrasDic) - (i+1)]
+	#print x+" "+y
+	#if y not in add:
+	try:
+		hash[x].append(y)
+	except Exception, e:
+		hash[x] =[]
+		hash[x].append(y)
 
 entrada = cif.read()
-hash[letrasCif[len(letrasCif)-1]].append(" ")
+
 for h in hash:
     print hash[h]
 itr = 0
-print dic
+
 while itr < len(hash):
 	key = ''
 	for x in hash:
@@ -202,9 +209,10 @@ while itr < len(hash):
 			key += lista[itr]
 		except IndexError:
 			pass
+	tentativa = 0
 	for a in itertools.permutations(key, len(key)):
 		l = 0
-		#print a
+		print a
 		# Quebra do texto cifrado
 		for i in hash:
 			try:
@@ -212,8 +220,12 @@ while itr < len(hash):
 			except IndexError:
 				pass
 			l += 1
-		if searchWords(entrada) >= 50:
+		if searchWords(entrada) >= 0.1 and tentativa > 	45:
 			print "Chave = " + key
 			s.write(entrada)
+			itr = len(hash)
 			break
+		if tentativa > 50:
+			break
+		tentativa+=1
 	itr += 1
