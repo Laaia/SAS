@@ -11,7 +11,7 @@ try:
 except IOError:
     print "Erro na abertura dos arquivos"
 
-dicio = dic_arq.readlines()
+dicio = dic_arq.read().split()
 dic = Set([])
 for i in dicio:
     dic.add(i.replace("\n", ""))
@@ -113,7 +113,7 @@ def searchWords(text):
     #print "achei word = " + word
 
     lines += 1.0
-    print (hit/lines)*100
+    #print (hit/lines)*100
     return (hit/lines)*100
 # - - - M A I N - - - #
 
@@ -140,7 +140,6 @@ try:
     tCif = open("3_cif.txt", "r+")
 
     cif = open("cif.txt", "r+")
-
 
 except IOError:
     print "Erro na abertura dos arquivos"
@@ -194,20 +193,27 @@ hash[letrasCif[len(letrasCif)-1]].append(" ")
 for h in hash:
     print hash[h]
 itr = 0
-key = ''
-for x in hash:
-    lista = hash[x]
-    try:
-        key += lista[itr]
-    except IndexError:
-        pass
-for a in itertools.permutations(key, len(key)):
-    l = 0
-    # Quebra do texto cifrado
-    for i in hash:
-    	entrada = entrada.replace(i, key[l])
-        l += 1
-    if searchWords(entrada) >= 50:
-        print "Chave = " + key
-        s.write(entrada)
-        break
+print dic
+while itr < len(hash):
+	key = ''
+	for x in hash:
+		lista = hash[x]
+		try:
+			key += lista[itr]
+		except IndexError:
+			pass
+	for a in itertools.permutations(key, len(key)):
+		l = 0
+		#print a
+		# Quebra do texto cifrado
+		for i in hash:
+			try:
+				entrada = entrada.replace(i, key[l])
+			except IndexError:
+				pass
+			l += 1
+		if searchWords(entrada) >= 50:
+			print "Chave = " + key
+			s.write(entrada)
+			break
+	itr += 1
