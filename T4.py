@@ -163,24 +163,107 @@ entrada = cif.read()
 texto = tex.read()
 
 i = 0
-for p in dicP:
-    if len(p) > 10:
-        i+=1
-        palavra = dicP[p]
-        for x in range(0, len(entrada)-len(p)):
-            if padrao(entrada[x:x+len(p)]) == p:
-                y = 0
-                print entrada[x:x+len(p)]
-                print p
-                print palavra
-                for a in range(x, x+len(p)):
-                    hash[entrada[a]] = palavra[y]
-                    y += 1
-                break
-        if i == 10:
-            break
 
 add = ''
+p = '1231452678'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '1223455666738910117121387'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '12334546478'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '123456789109119812'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '12345675389101112'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '1234546781798610'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '12345678291011121213141515'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '12234553678910111265913141512816171614610'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
+p = '12234556667892101112101387141385155165175151617165'
+palavra = dicP[p]
+for x in range(0, len(entrada)-len(dicP[p])):
+    if padrao(entrada[x:x+len(dicP[p])]) == p:
+        y = 0
+        for a in range(x, x+len(dicP[p])):
+            if palavra[y] not in add:
+                hash[entrada[a]] = palavra[y]
+                add += palavra[y]
+            y += 1
+        break
 
 for x in range(0, 12):
     if duplasDic[x] not in add:
@@ -200,7 +283,7 @@ for x in range(0, 5):
 print hash
 print "--"*8
 
-#hash[entrada[68]] = texto[68]
+hash[letrasCif[0]] = letrasDic[0]
 
 saida = ''
 for i in entrada:
